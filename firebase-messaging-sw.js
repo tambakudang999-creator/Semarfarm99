@@ -1,0 +1,4 @@
+importScripts('https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js');
+firebase.initializeApp({apiKey:"AIzaSyDdXQ9kioYsleUKiWr_IGnpphqcWFpWSyk",authDomain:"semar-farm99.firebaseapp.com",databaseURL:"https://semar-farm99-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"semar-farm99",storageBucket:"semar-farm99.firebasestorage.app",messagingSenderId:"1073074828029",appId:"1:1073074828029:web:1368f02343a4ee44288494"});
+const m=firebase.messaging();m.onBackgroundMessage(p=>{self.registration.showNotification(p.notification?.title||'Pakan Baru!', {body:p.notification?.body||'Ada aktivitas baru', icon:'/icon-sf-192.png', badge:'/icon-sf-192.png'})});self.addEventListener('notificationclick',e=>{e.notification.close();e.waitUntil(clients.openWindow('/'));});
