@@ -1,653 +1,565 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Semar Farm v2 - Platform Pertanian Modern</title>
+  <title>Semar Farm - Dashboard</title>
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#0a2a22">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
-    :root {
-      --primary: #0a7a3d;
-      --primary-light: #1a9a52;
-      --primary-dark: #055a2a;
-      --secondary: #f4a460;
-      --accent: #ffd700;
-      --dark: #1a1a1a;
-      --light: #f8f9fa;
-      --border: #e0e0e0;
-      --text: #2c2c2c;
-      --text-light: #666666;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: var(--text);
-      background-color: #ffffff;
-      line-height: 1.6;
+      background: #f5f5f5;
+      color: #333;
     }
-
-    /* Header/Navbar */
-    header {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-      color: white;
-      padding: 1rem 2rem;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .header-container {
+    .container {
       max-width: 1200px;
       margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      background: linear-gradient(135deg, #0a7a3d 0%, #1a9a52 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .card h2 {
+      color: #0a7a3d;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+    .form-group {
+      margin-bottom: 15px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    select {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      flex: 1;
+      min-width: 200px;
+    }
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #0a7a3d;
+      box-shadow: 0 0 5px rgba(10, 122, 61, 0.3);
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+    .btn-primary {
+      background: #0a7a3d;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #055a2a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(10, 122, 61, 0.3);
+    }
+    .btn-secondary {
+      background: #f4a460;
+      color: black;
+    }
+    .btn-secondary:hover {
+      background: #ff9844;
+      transform: translateY(-2px);
+    }
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+      padding: 5px 10px;
+      font-size: 0.9rem;
+    }
+    .btn-danger:hover {
+      background: #c82333;
+    }
+    .data-grid {
+      display: grid;
+      gap: 15px;
+    }
+    .data-item {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 5px;
+      background: #fafafa;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    .data-item-info {
+      flex: 1;
     }
-
-    .logo-icon {
-      width: 40px;
-      height: 40px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
+    .data-item-info h3 {
+      color: #0a7a3d;
+      margin-bottom: 5px;
     }
-
-    nav {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      transition: opacity 0.3s;
-      font-weight: 500;
-    }
-
-    nav a:hover {
-      opacity: 0.8;
-    }
-
-    .btn-primary {
-      background: var(--secondary);
-      color: var(--dark);
-      padding: 0.7rem 1.5rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-
-    .btn-primary:hover {
-      background: #ff9844;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(244, 164, 96, 0.3);
-    }
-
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-      color: white;
-      padding: 6rem 2rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -10%;
-      width: 400px;
-      height: 400px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 50%;
-      animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(20px); }
-    }
-
-    .hero-content {
-      max-width: 800px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      font-weight: 800;
-      animation: slideDown 0.8s ease-out;
-    }
-
-    .hero p {
-      font-size: 1.3rem;
-      margin-bottom: 2rem;
-      opacity: 0.95;
-      animation: slideUp 0.8s ease-out 0.2s both;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      animation: slideUp 0.8s ease-out 0.4s both;
-    }
-
-    .btn-secondary {
-      background: white;
-      color: var(--primary);
-      padding: 0.8rem 2rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: all 0.3s;
-    }
-
-    .btn-secondary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Features Section */
-    .features {
-      padding: 4rem 2rem;
-      background: var(--light);
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-      color: var(--primary);
-      font-weight: 700;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-
-    .feature-card {
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s;
-      border-top: 4px solid var(--secondary);
-    }
-
-    .feature-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-    }
-
-    .feature-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    .feature-card h3 {
-      color: var(--primary);
-      margin-bottom: 1rem;
-      font-size: 1.3rem;
-    }
-
-    .feature-card p {
-      color: var(--text-light);
-      line-height: 1.6;
-    }
-
-    /* Products Section */
-    .products {
-      padding: 4rem 2rem;
-      background: white;
-    }
-
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .product-card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s;
-      border: 1px solid var(--border);
-    }
-
-    .product-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 24px rgba(10, 122, 61, 0.15);
-    }
-
-    .product-image {
-      width: 100%;
-      height: 200px;
-      background: linear-gradient(135deg, var(--primary-light), var(--primary));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 4rem;
-    }
-
-    .product-info {
-      padding: 1.5rem;
-    }
-
-    .product-info h3 {
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-    }
-
-    .product-info p {
-      color: var(--text-light);
+    .data-item-info p {
+      color: #666;
       font-size: 0.9rem;
-      margin-bottom: 1rem;
+      margin: 3px 0;
     }
-
-    .product-price {
-      color: var(--secondary);
-      font-size: 1.3rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
+    .data-item-actions {
+      display: flex;
+      gap: 10px;
     }
-
-    .btn-add-cart {
-      width: 100%;
-      background: var(--primary);
-      color: white;
-      padding: 0.7rem;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
     }
-
-    .btn-add-cart:hover {
-      background: var(--primary-dark);
+    .empty-state {
+      text-align: center;
+      padding: 30px;
+      color: #999;
     }
-
-    /* Stats Section */
-    .stats {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-      color: white;
-      padding: 3rem 2rem;
-      margin: 2rem 0;
+    .empty-state p {
+      font-size: 1.1rem;
     }
-
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
       text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border-left: 4px solid #0a7a3d;
     }
-
-    .stat-item h2 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
+    .stat-card h3 {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
     }
-
-    .stat-item p {
-      opacity: 0.9;
-      font-size: 1rem;
+    .stat-card .number {
+      color: #0a7a3d;
+      font-size: 2rem;
+      font-weight: bold;
     }
-
-    /* CTA Section */
-    .cta {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-      color: white;
-      padding: 4rem 2rem;
+    .loading {
       text-align: center;
-    }
-
-    .cta h2 {
-      font-size: 2.2rem;
-      margin-bottom: 1rem;
-    }
-
-    .cta p {
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-      opacity: 0.95;
-    }
-
-    /* Footer */
-    footer {
-      background: var(--dark);
-      color: white;
-      padding: 3rem 2rem 1rem;
-    }
-
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .footer-section h4 {
-      margin-bottom: 1rem;
-      color: var(--secondary);
-    }
-
-    .footer-section ul {
-      list-style: none;
-    }
-
-    .footer-section a {
-      color: #ccc;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .footer-section a:hover {
-      color: var(--secondary);
-    }
-
-    .footer-bottom {
-      text-align: center;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px;
       color: #999;
     }
-
-    /* Responsive */
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
+      .two-column {
+        grid-template-columns: 1fr;
       }
-
-      .hero p {
-        font-size: 1rem;
-      }
-
-      nav {
-        gap: 1rem;
-      }
-
-      .section-title {
-        font-size: 1.8rem;
-      }
-
-      .hero-buttons {
+      .form-group {
         flex-direction: column;
       }
-
-      .hero-buttons button {
-        width: 100%;
+      input[type="text"],
+      input[type="number"],
+      select {
+        min-width: 100%;
       }
-    }
-
-    /* Utility Classes */
-    .text-center {
-      text-align: center;
-    }
-
-    .mt-3 {
-      margin-top: 3rem;
-    }
-
-    .mb-2 {
-      margin-bottom: 2rem;
+      .data-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .data-item-actions {
+        width: 100%;
+        margin-top: 10px;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="header-container">
-      <div class="logo">
-        <div class="logo-icon">🌾</div>
-        <span>Semar Farm v2</span>
-      </div>
-      <nav>
-        <a href="#beranda">Beranda</a>
-        <a href="#fitur">Fitur</a>
-        <a href="#produk">Produk</a>
-        <a href="#kontak">Kontak</a>
-        <button class="btn-primary">Download App</button>
-      </nav>
-    </div>
-  </header>
+  <div class="container">
+    <header>
+      <h1>🌾 Semar Farm Dashboard</h1>
+      <p>Platform Manajemen Kolam Ikan & Aquaculture</p>
+    </header>
 
-  <!-- Hero Section -->
-  <section class="hero" id="beranda">
-    <div class="hero-content">
-      <h1>Semar Farm v2</h1>
-      <p>Platform Pertanian Modern untuk Petani Indonesia</p>
-      <p style="font-size: 1rem; opacity: 0.85; margin-top: -1rem;">Kelola ladang, pantau hasil panen, dan tingkatkan produktivitas dengan teknologi terdepan</p>
-      <div class="hero-buttons">
-        <button class="btn-primary" style="font-size: 1rem; padding: 1rem 2.5rem;">Mulai Sekarang</button>
-        <button class="btn-secondary">Pelajari Lebih Lanjut</button>
-      </div>
-    </div>
-  </section>
+    <!-- Stats Section -->
+    <div class="stats-grid" id="stats-container"></div>
 
-  <!-- Features Section -->
-  <section class="features" id="fitur">
-    <div class="container">
-      <h2 class="section-title">Fitur Unggulan</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">📊</div>
-          <h3>Monitoring Real-time</h3>
-          <p>Pantau kondisi lahan Anda secara real-time dengan sensor IoT yang terintegrasi langsung di aplikasi</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🌱</div>
-          <h3>Manajemen Tanaman</h3>
-          <p>Kelola jadwal tanam, pupuk, dan penyiraman dengan kalender otomatis yang disesuaikan per tanaman</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📱</div>
-          <h3>Mobile App</h3>
-          <p>Akses data pertanian Anda kapan saja dan dimana saja melalui aplikasi mobile yang user-friendly</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔔</div>
-          <h3>Notifikasi Pintar</h3>
-          <p>Dapatkan notifikasi otomatis untuk irigasi, pemupukan, dan peringatan dini hama & penyakit</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📈</div>
-          <h3>Analytics & Laporan</h3>
-          <p>Analisis data produksi dengan grafik detail dan laporan komprehensif untuk optimasi hasil panen</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">👥</div>
-          <h3>Komunitas Petani</h3>
-          <p>Berbagi pengalaman, tips, dan trik dengan ribuan petani lain di seluruh Indonesia</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stats Section -->
-  <section class="stats">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-item">
-          <h2>10K+</h2>
-          <p>Petani Aktif</p>
-        </div>
-        <div class="stat-item">
-          <h2>50K+</h2>
-          <p>Hektar Terawat</p>
-        </div>
-        <div class="stat-item">
-          <h2>95%</h2>
-          <p>Tingkat Kepuasan</p>
-        </div>
-        <div class="stat-item">
-          <h2>24/7</h2>
-          <p>Customer Support</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Products Section -->
-  <section class="products" id="produk">
-    <div class="container">
-      <h2 class="section-title">Paket Berlangganan</h2>
-      <div class="products-grid">
-        <div class="product-card">
-          <div class="product-image">💚</div>
-          <div class="product-info">
-            <h3>Basic</h3>
-            <p>Untuk pemula yang ingin memulai perjalanan digital farming</p>
-            <div class="product-price">Gratis</div>
-            <button class="btn-add-cart">Mulai Gratis</button>
+    <!-- Two Column Layout -->
+    <div class="two-column">
+      <!-- Kolam Section -->
+      <div>
+        <!-- Add Kolam Card -->
+        <div class="card">
+          <h2>➕ Tambah Kolam Baru</h2>
+          <div class="form-group">
+            <input type="text" id="kolam_name" placeholder="Nama Kolam" />
+            <input type="number" id="kolam_size" placeholder="Ukuran (m²)" />
+            <input type="text" id="kolam_type" placeholder="Jenis Ikan" />
+            <button class="btn-primary" onclick="addKolam()">Tambah</button>
           </div>
         </div>
-        <div class="product-card">
-          <div class="product-image">🌿</div>
-          <div class="product-info">
-            <h3>Pro</h3>
-            <p>Fitur lengkap untuk petani profesional dan komunitas</p>
-            <div class="product-price">Rp 99K/bulan</div>
-            <button class="btn-add-cart">Berlangganan Pro</button>
+
+        <!-- Daftar Kolam Card -->
+        <div class="card">
+          <h2>📋 Daftar Kolam</h2>
+          <div id="kolam_list" class="data-grid">
+            <div class="loading">Memuat data...</div>
           </div>
         </div>
-        <div class="product-card">
-          <div class="product-image">🏆</div>
-          <div class="product-info">
-            <h3>Enterprise</h3>
-            <p>Solusi khusus untuk koperasi dan agribisnis skala besar</p>
-            <div class="product-price">Hubungi Kami</div>
-            <button class="btn-add-cart">Jadwalkan Demo</button>
+      </div>
+
+      <!-- Anak Kolam Section -->
+      <div>
+        <!-- Add Anak Kolam Card -->
+        <div class="card">
+          <h2>➕ Tambah Anak Kolam</h2>
+          <div class="form-group">
+            <input type="text" id="anak_kolam_name" placeholder="Nama Anak Kolam" />
+            <input type="text" id="anak_kolam_parent" placeholder="Kolam Induk" />
+            <input type="number" id="anak_kolam_jumlah" placeholder="Jumlah Ikan" />
+            <button class="btn-primary" onclick="addAnakKolam()">Tambah</button>
+          </div>
+        </div>
+
+        <!-- Daftar Anak Kolam Card -->
+        <div class="card">
+          <h2>📋 Daftar Anak Kolam</h2>
+          <div id="anak_kolam_list" class="data-grid">
+            <div class="loading">Memuat data...</div>
           </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- CTA Section -->
-  <section class="cta" id="kontak">
-    <div class="container">
-      <h2>Siap Bergabung dengan Revolusi Pertanian Digital?</h2>
-      <p>Ratusan ribu petani Indonesia telah merasakan manfaatnya. Saatnya Anda bergabung!</p>
-      <button class="btn-primary" style="font-size: 1rem; padding: 1rem 2.5rem;">Download Semar Farm v2 Sekarang</button>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h4>Tentang Kami</h4>
-          <p>Semar Farm adalah platform pertanian digital yang membantu petani Indonesia meningkatkan produktivitas dengan teknologi terkini.</p>
-        </div>
-        <div class="footer-section">
-          <h4>Produk</h4>
-          <ul>
-            <li><a href="#">Mobile App</a></li>
-            <li><a href="#">Dashboard Web</a></li>
-            <li><a href="#">API Integration</a></li>
-            <li><a href="#">IoT Sensors</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h4>Dukungan</h4>
-          <ul>
-            <li><a href="#">Pusat Bantuan</a></li>
-            <li><a href="#">Kontak Kami</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Tutorial</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="#">Kebijakan Privasi</a></li>
-            <li><a href="#">Syarat & Ketentuan</a></li>
-            <li><a href="#">Lisensi</a></li>
-          </ul>
-        </div>
+    <!-- Settings Card -->
+    <div class="card">
+      <h2>⚙️ Pengaturan</h2>
+      <div class="form-group">
+        <button class="btn-secondary" onclick="enableNotifications()">🔔 Aktifkan Notifikasi</button>
+        <button class="btn-secondary" onclick="exportCSV()">📥 Export Data CSV</button>
+        <button class="btn-secondary" onclick="clearAllData()">🗑️ Hapus Semua Data</button>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2024 Semar Farm v2. Semua hak dilindungi. Dibuat dengan ❤️ untuk petani Indonesia.</p>
-      </div>
+      <p style="margin-top: 10px; color: #666; font-size: 0.9rem;">
+        <strong>Status:</strong> <span id="status">Tidak terhubung</span>
+      </p>
     </div>
-  </footer>
+  </div>
 
-  <script>
-    // Mobile menu toggle dapat ditambahkan di sini
-    // Smooth scroll already enabled in CSS
-    
-    // Simple button interactions
-    document.querySelectorAll('.btn-primary, .btn-secondary, .btn-add-cart').forEach(btn => {
-      btn.addEventListener('click', function() {
-        console.log('Button clicked:', this.textContent);
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
+
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDdXQ9kioYsleUKiWr_IGnpphqcWFpWSyk",
+      authDomain: "semar-farm99.firebaseapp.com",
+      databaseURL: "https://semar-farm99-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "semar-farm99",
+      storageBucket: "semar-farm99.firebasestorage.app",
+      messagingSenderId: "1073074828029",
+      appId: "1:1073074828029:web:1368f02343a4ee44288494",
+      measurementId: "G-KC6JEZGM5Y"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const messaging = getMessaging(app);
+
+    // Global variables
+    let kolamData = [];
+    let anakKolamData = [];
+
+    // Load Kolam Data
+    function loadKolam() {
+      const kolamRef = ref(db, 'kolam');
+      onValue(kolamRef, (snapshot) => {
+        kolamData = [];
+        const data = snapshot.val();
+        if (data) {
+          Object.keys(data).forEach(key => {
+            kolamData.push({ id: key, ...data[key] });
+          });
+        }
+        displayKolam();
+        updateStats();
       });
+    }
+
+    // Load Anak Kolam Data
+    function loadAnakKolam() {
+      const anakKolamRef = ref(db, 'anak_kolam');
+      onValue(anakKolamRef, (snapshot) => {
+        anakKolamData = [];
+        const data = snapshot.val();
+        if (data) {
+          Object.keys(data).forEach(key => {
+            anakKolamData.push({ id: key, ...data[key] });
+          });
+        }
+        displayAnakKolam();
+        updateStats();
+      });
+    }
+
+    // Display Kolam
+    function displayKolam() {
+      const kolamList = document.getElementById('kolam_list');
+      if (kolamData.length === 0) {
+        kolamList.innerHTML = '<div class="empty-state"><p>Belum ada data kolam</p></div>';
+      } else {
+        kolamList.innerHTML = kolamData.map(kolam => `
+          <div class="data-item">
+            <div class="data-item-info">
+              <h3>${kolam.name}</h3>
+              <p><strong>Ukuran:</strong> ${kolam.size} m²</p>
+              <p><strong>Jenis Ikan:</strong> ${kolam.type}</p>
+              <p><strong>Status:</strong> ${kolam.status || 'Aktif'}</p>
+            </div>
+            <div class="data-item-actions">
+              <button class="btn-danger" onclick="deleteKolam('${kolam.id}')">Hapus</button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Display Anak Kolam
+    function displayAnakKolam() {
+      const anakKolamList = document.getElementById('anak_kolam_list');
+      if (anakKolamData.length === 0) {
+        anakKolamList.innerHTML = '<div class="empty-state"><p>Belum ada data anak kolam</p></div>';
+      } else {
+        anakKolamList.innerHTML = anakKolamData.map(anak => `
+          <div class="data-item">
+            <div class="data-item-info">
+              <h3>${anak.name}</h3>
+              <p><strong>Kolam Induk:</strong> ${anak.parent}</p>
+              <p><strong>Jumlah Ikan:</strong> ${anak.jumlah}</p>
+              <p><strong>Status:</strong> ${anak.status || 'Hidup'}</p>
+            </div>
+            <div class="data-item-actions">
+              <button class="btn-danger" onclick="deleteAnakKolam('${anak.id}')">Hapus</button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Update Stats
+    function updateStats() {
+      const statsContainer = document.getElementById('stats-container');
+      const totalIkan = anakKolamData.reduce((sum, anak) => sum + parseInt(anak.jumlah || 0), 0);
+      
+      statsContainer.innerHTML = `
+        <div class="stat-card">
+          <h3>Total Kolam</h3>
+          <div class="number">${kolamData.length}</div>
+        </div>
+        <div class="stat-card">
+          <h3>Total Anak Kolam</h3>
+          <div class="number">${anakKolamData.length}</div>
+        </div>
+        <div class="stat-card">
+          <h3>Total Ikan</h3>
+          <div class="number">${totalIkan}</div>
+        </div>
+        <div class="stat-card">
+          <h3>Total Luas</h3>
+          <div class="number">${kolamData.reduce((sum, k) => sum + parseInt(k.size || 0), 0)} m²</div>
+        </div>
+      `;
+    }
+
+    // Add Kolam
+    window.addKolam = async () => {
+      const name = document.getElementById('kolam_name').value;
+      const size = document.getElementById('kolam_size').value;
+      const type = document.getElementById('kolam_type').value;
+
+      if (name && size && type) {
+        try {
+          const kolamRef = ref(db, 'kolam');
+          await push(kolamRef, {
+            name: name,
+            size: parseInt(size),
+            type: type,
+            status: 'Aktif',
+            created_at: new Date().toLocaleString('id-ID')
+          });
+          document.getElementById('kolam_name').value = '';
+          document.getElementById('kolam_size').value = '';
+          document.getElementById('kolam_type').value = '';
+          alert('✅ Kolam berhasil ditambahkan!');
+          sendNotification('Kolam Baru', `${name} telah ditambahkan ke sistem`);
+        } catch (error) {
+          alert('❌ Error: ' + error.message);
+        }
+      } else {
+        alert('⚠️ Semua field harus diisi!');
+      }
+    };
+
+    // Add Anak Kolam
+    window.addAnakKolam = async () => {
+      const name = document.getElementById('anak_kolam_name').value;
+      const parent = document.getElementById('anak_kolam_parent').value;
+      const jumlah = document.getElementById('anak_kolam_jumlah').value;
+
+      if (name && parent && jumlah) {
+        try {
+          const anakKolamRef = ref(db, 'anak_kolam');
+          await push(anakKolamRef, {
+            name: name,
+            parent: parent,
+            jumlah: parseInt(jumlah),
+            status: 'Hidup',
+            created_at: new Date().toLocaleString('id-ID')
+          });
+          document.getElementById('anak_kolam_name').value = '';
+          document.getElementById('anak_kolam_parent').value = '';
+          document.getElementById('anak_kolam_jumlah').value = '';
+          alert('✅ Anak kolam berhasil ditambahkan!');
+          sendNotification('Anak Kolam Baru', `${name} telah ditambahkan ke ${parent}`);
+        } catch (error) {
+          alert('❌ Error: ' + error.message);
+        }
+      } else {
+        alert('⚠️ Semua field harus diisi!');
+      }
+    };
+
+    // Delete Kolam
+    window.deleteKolam = async (id) => {
+      if (confirm('Yakin ingin menghapus kolam ini?')) {
+        try {
+          const kolamRef = ref(db, `kolam/${id}`);
+          await remove(kolamRef);
+          alert('✅ Kolam berhasil dihapus!');
+        } catch (error) {
+          alert('❌ Error: ' + error.message);
+        }
+      }
+    };
+
+    // Delete Anak Kolam
+    window.deleteAnakKolam = async (id) => {
+      if (confirm('Yakin ingin menghapus anak kolam ini?')) {
+        try {
+          const anakKolamRef = ref(db, `anak_kolam/${id}`);
+          await remove(anakKolamRef);
+          alert('✅ Anak kolam berhasil dihapus!');
+        } catch (error) {
+          alert('❌ Error: ' + error.message);
+        }
+      }
+    };
+
+    // Enable Notifications
+    window.enableNotifications = async () => {
+      try {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+          const token = await getToken(messaging, {
+            vapidKey: 'BG2VmDdZ7jfGxrI3cXl5lX0wZ5xZ6kL9mN2pQ7rS9sT0uV1wX3yZ4aB5cD6eF7gH8iJ9kL0mN1oP2qR3sT4uV5wX6yZ7aB8cD9eF0gH1iJ2kL3mN4oP5qR6sT7uV8wX9yZ'
+          });
+          console.log('FCM Token:', token);
+          localStorage.setItem('fcm_token', token);
+          alert('✅ Notifikasi AKTIF! HP akan bunyi saat ada update.');
+          document.getElementById('status').textContent = 'Notifikasi Aktif ✅';
+        } else {
+          alert('⚠️ Izin notifikasi ditolak. Silakan ubah di pengaturan aplikasi.');
+        }
+      } catch (error) {
+        console.log('Error:', error);
+      }
+    };
+
+    // Listen for incoming messages
+    onMessage(messaging, (payload) => {
+      console.log('Message received:', payload);
+      const notificationTitle = payload.notification?.title || 'Semar Farm';
+      const notificationOptions = {
+        body: payload.notification?.body || 'Ada update baru',
+        icon: '🌾'
+      };
+      new Notification(notificationTitle, notificationOptions);
     });
+
+    // Send Notification
+    function sendNotification(title, body) {
+      if (Notification.permission === 'granted') {
+        new Notification(title, { body: body, icon: '🌾' });
+      }
+    }
+
+    // Export CSV
+    window.exportCSV = () => {
+      let csv = 'Nama Kolam,Ukuran (m²),Jenis Ikan,Status\n';
+      kolamData.forEach(kolam => {
+        csv += `"${kolam.name}","${kolam.size}","${kolam.type}","${kolam.status}"\n`;
+      });
+      csv += '\n\nNama Anak Kolam,Kolam Induk,Jumlah Ikan,Status\n';
+      anakKolamData.forEach(anak => {
+        csv += `"${anak.name}","${anak.parent}","${anak.jumlah}","${anak.status}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `semar-farm-export-${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
+    // Clear All Data
+    window.clearAllData = () => {
+      if (confirm('⚠️ Ini akan menghapus SEMUA data! Yakin?')) {
+        kolamData.forEach(kolam => deleteKolam(kolam.id));
+        anakKolamData.forEach(anak => deleteAnakKolam(anak.id));
+        alert('✅ Semua data berhasil dihapus!');
+      }
+    };
+
+    // Initialize
+    loadKolam();
+    loadAnakKolam();
+    document.getElementById('status').textContent = 'Terhubung ke Firebase ✅';
+
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./firebase-messaging-sw.js').catch(err => console.log('SW error:', err));
+    }
   </script>
 </body>
 </html>
