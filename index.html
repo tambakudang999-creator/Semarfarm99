@@ -3,282 +3,237 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Semar Farm - Dashboard</title>
+  <title>Semar Farm</title>
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#0a2a22">
   <style>
-    * {
+    * { box-sizing: border-box; }
+    html, body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f3f3;
+      color: #1f1f1f;
     }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f5f5;
-      color: #333;
+      min-height: 100vh;
     }
-    .container {
+    .app {
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
     }
-    header {
+    .topbar {
       background: linear-gradient(135deg, #0a7a3d 0%, #1a9a52 100%);
       color: white;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 30px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    header h1 {
-      font-size: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
+      border-radius: 10px;
+      padding: 18px 20px;
       margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     }
-    .card h2 {
-      color: #0a7a3d;
-      margin-bottom: 15px;
-      font-size: 1.3rem;
+    .topbar h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
     }
-    .form-group {
-      margin-bottom: 15px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: flex-end;
-    }
-    input[type="text"],
-    input[type="number"],
-    input[type="email"],
-    select {
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 1rem;
-      flex: 1;
-      min-width: 200px;
-    }
-    input[type="text"]:focus,
-    input[type="number"]:focus,
-    select:focus {
-      outline: none;
-      border-color: #0a7a3d;
-      box-shadow: 0 0 5px rgba(10, 122, 61, 0.3);
-    }
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-      font-size: 1rem;
-    }
-    .btn-primary {
-      background: #0a7a3d;
-      color: white;
-    }
-    .btn-primary:hover {
-      background: #055a2a;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(10, 122, 61, 0.3);
-    }
-    .btn-secondary {
-      background: #f4a460;
-      color: black;
-    }
-    .btn-secondary:hover {
-      background: #ff9844;
-      transform: translateY(-2px);
-    }
-    .btn-danger {
-      background: #dc3545;
-      color: white;
-      padding: 5px 10px;
+    .sub {
       font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 6px;
     }
-    .btn-danger:hover {
-      background: #c82333;
-    }
-    .data-grid {
-      display: grid;
-      gap: 15px;
-    }
-    .data-item {
-      border: 1px solid #ddd;
-      padding: 15px;
-      border-radius: 5px;
-      background: #fafafa;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .data-item-info {
-      flex: 1;
-    }
-    .data-item-info h3 {
-      color: #0a7a3d;
-      margin-bottom: 5px;
-    }
-    .data-item-info p {
-      color: #666;
-      font-size: 0.9rem;
-      margin: 3px 0;
-    }
-    .data-item-actions {
-      display: flex;
-      gap: 10px;
-    }
-    .two-column {
+    .row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
-    }
-    .empty-state {
-      text-align: center;
-      padding: 30px;
-      color: #999;
-    }
-    .empty-state p {
-      font-size: 1.1rem;
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
       margin-bottom: 20px;
     }
-    .stat-card {
+    .panel {
       background: white;
-      padding: 20px;
-      border-radius: 8px;
-      text-align: center;
+      border-radius: 10px;
+      padding: 18px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      border-left: 4px solid #0a7a3d;
     }
-    .stat-card h3 {
-      color: #666;
-      font-size: 0.9rem;
-      margin-bottom: 10px;
-    }
-    .stat-card .number {
+    .panel h2 {
+      margin: 0 0 16px 0;
+      font-size: 1.2rem;
       color: #0a7a3d;
-      font-size: 2rem;
-      font-weight: bold;
     }
-    .loading {
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+    .field-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+    input, button {
+      height: 42px;
+      border-radius: 8px;
+      border: 1px solid #d0d0d0;
+      font-size: 0.95rem;
+      padding: 0 12px;
+    }
+    input:focus {
+      outline: none;
+      border-color: #0a7a3d;
+      box-shadow: 0 0 0 3px rgba(10,122,61,0.12);
+    }
+    button {
+      cursor: pointer;
+      font-weight: 600;
+      border: none;
+    }
+    .primary {
+      background: #0a7a3d;
+      color: white;
+    }
+    .secondary {
+      background: #f4a460;
+      color: #1f1f1f;
+    }
+    .danger {
+      background: #d9534f;
+      color: white;
+    }
+    .data-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #e9e9e9;
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: #fafafa;
+    }
+    .item .meta {
+      line-height: 1.5;
+    }
+    .item strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #0a2a22;
+    }
+    .item small {
+      color: #666;
+    }
+    .empty {
       text-align: center;
-      padding: 20px;
-      color: #999;
+      color: #777;
+      padding: 24px 10px;
+      border: 1px dashed #d5d5d5;
+      border-radius: 8px;
+      background: #fafafa;
     }
-    @media (max-width: 768px) {
-      .two-column {
-        grid-template-columns: 1fr;
-      }
-      .form-group {
-        flex-direction: column;
-      }
-      input[type="text"],
-      input[type="number"],
-      select {
-        min-width: 100%;
-      }
-      .data-item {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .data-item-actions {
-        width: 100%;
-        margin-top: 10px;
-      }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .stat-box {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 18px 12px;
+      text-align: center;
+    }
+    .stat-box h3 {
+      margin: 0 0 10px 0;
+      font-size: 0.85rem;
+      color: #5f5f5f;
+      font-weight: 600;
+    }
+    .stat-box .num {
+      font-size: 1.8rem;
+      color: #0a7a3d;
+      font-weight: 700;
+    }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .status {
+      margin-top: 10px;
+      color: #444;
+      font-size: 0.9rem;
+    }
+    @media (max-width: 900px) {
+      .row { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .field-grid, .field-grid-2 { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>🌾 Semar Farm Dashboard</h1>
-      <p>Platform Manajemen Kolam Ikan & Aquaculture</p>
-    </header>
+  <div class="app">
+    <div class="topbar">
+      <h1>Semar Farm</h1>
+      <div class="sub">Dashboard Kelola Kolam & Anak Kolam</div>
+    </div>
 
-    <!-- Stats Section -->
-    <div class="stats-grid" id="stats-container"></div>
+    <div class="stats" id="stats"></div>
 
-    <!-- Two Column Layout -->
-    <div class="two-column">
-      <!-- Kolam Section -->
-      <div>
-        <!-- Add Kolam Card -->
-        <div class="card">
-          <h2>➕ Tambah Kolam Baru</h2>
-          <div class="form-group">
-            <input type="text" id="kolam_name" placeholder="Nama Kolam" />
-            <input type="number" id="kolam_size" placeholder="Ukuran (m²)" />
-            <input type="text" id="kolam_type" placeholder="Jenis Ikan" />
-            <button class="btn-primary" onclick="addKolam()">Tambah</button>
-          </div>
-        </div>
-
-        <!-- Daftar Kolam Card -->
-        <div class="card">
-          <h2>📋 Daftar Kolam</h2>
-          <div id="kolam_list" class="data-grid">
-            <div class="loading">Memuat data...</div>
-          </div>
+    <div class="row">
+      <div class="panel">
+        <h2>Tambah Kolam</h2>
+        <div class="field-grid">
+          <input id="kolam_name" type="text" placeholder="Nama Kolam">
+          <input id="kolam_size" type="number" placeholder="Ukuran (m²)">
+          <input id="kolam_type" type="text" placeholder="Jenis Ikan">
+          <button class="primary" onclick="addKolam()">Tambah</button>
         </div>
       </div>
 
-      <!-- Anak Kolam Section -->
-      <div>
-        <!-- Add Anak Kolam Card -->
-        <div class="card">
-          <h2>➕ Tambah Anak Kolam</h2>
-          <div class="form-group">
-            <input type="text" id="anak_kolam_name" placeholder="Nama Anak Kolam" />
-            <input type="text" id="anak_kolam_parent" placeholder="Kolam Induk" />
-            <input type="number" id="anak_kolam_jumlah" placeholder="Jumlah Ikan" />
-            <button class="btn-primary" onclick="addAnakKolam()">Tambah</button>
-          </div>
-        </div>
-
-        <!-- Daftar Anak Kolam Card -->
-        <div class="card">
-          <h2>📋 Daftar Anak Kolam</h2>
-          <div id="anak_kolam_list" class="data-grid">
-            <div class="loading">Memuat data...</div>
-          </div>
+      <div class="panel">
+        <h2>Tambah Anak Kolam</h2>
+        <div class="field-grid-2">
+          <input id="anak_name" type="text" placeholder="Nama Anak Kolam">
+          <input id="anak_parent" type="text" placeholder="Kolam Induk">
+          <input id="anak_jumlah" type="number" placeholder="Jumlah Ikan">
+          <button class="primary" onclick="addAnakKolam()">Tambah</button>
         </div>
       </div>
     </div>
 
-    <!-- Settings Card -->
-    <div class="card">
-      <h2>⚙️ Pengaturan</h2>
-      <div class="form-group">
-        <button class="btn-secondary" onclick="enableNotifications()">🔔 Aktifkan Notifikasi</button>
-        <button class="btn-secondary" onclick="exportCSV()">📥 Export Data CSV</button>
-        <button class="btn-secondary" onclick="clearAllData()">🗑️ Hapus Semua Data</button>
+    <div class="row">
+      <div class="panel">
+        <h2>Daftar Kolam</h2>
+        <div id="kolamList" class="data-list"></div>
       </div>
-      <p style="margin-top: 10px; color: #666; font-size: 0.9rem;">
-        <strong>Status:</strong> <span id="status">Tidak terhubung</span>
-      </p>
+
+      <div class="panel">
+        <h2>Daftar Anak Kolam</h2>
+        <div id="anakKolamList" class="data-list"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Pengaturan</h2>
+      <div class="toolbar">
+        <button class="secondary" onclick="enableNotifications()">Aktifkan Notifikasi</button>
+        <button class="secondary" onclick="exportCSV()">Export Data CSV</button>
+        <button class="danger" onclick="clearAllData()">Hapus Semua Data</button>
+      </div>
+      <div class="status">Status: <span id="statusText">Menyiapkan koneksi...</span></div>
     </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getDatabase, ref, push, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
     import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
 
-    // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyDdXQ9kioYsleUKiWr_IGnpphqcWFpWSyk",
       authDomain: "semar-farm99.firebaseapp.com",
@@ -290,273 +245,206 @@
       measurementId: "G-KC6JEZGM5Y"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const messaging = getMessaging(app);
 
-    // Global variables
     let kolamData = [];
     let anakKolamData = [];
 
-    // Load Kolam Data
-    function loadKolam() {
-      const kolamRef = ref(db, 'kolam');
-      onValue(kolamRef, (snapshot) => {
-        kolamData = [];
-        const data = snapshot.val();
-        if (data) {
-          Object.keys(data).forEach(key => {
-            kolamData.push({ id: key, ...data[key] });
-          });
-        }
-        displayKolam();
-        updateStats();
-      });
-    }
-
-    // Load Anak Kolam Data
-    function loadAnakKolam() {
-      const anakKolamRef = ref(db, 'anak_kolam');
-      onValue(anakKolamRef, (snapshot) => {
-        anakKolamData = [];
-        const data = snapshot.val();
-        if (data) {
-          Object.keys(data).forEach(key => {
-            anakKolamData.push({ id: key, ...data[key] });
-          });
-        }
-        displayAnakKolam();
-        updateStats();
-      });
-    }
-
-    // Display Kolam
-    function displayKolam() {
-      const kolamList = document.getElementById('kolam_list');
-      if (kolamData.length === 0) {
-        kolamList.innerHTML = '<div class="empty-state"><p>Belum ada data kolam</p></div>';
-      } else {
-        kolamList.innerHTML = kolamData.map(kolam => `
-          <div class="data-item">
-            <div class="data-item-info">
-              <h3>${kolam.name}</h3>
-              <p><strong>Ukuran:</strong> ${kolam.size} m²</p>
-              <p><strong>Jenis Ikan:</strong> ${kolam.type}</p>
-              <p><strong>Status:</strong> ${kolam.status || 'Aktif'}</p>
-            </div>
-            <div class="data-item-actions">
-              <button class="btn-danger" onclick="deleteKolam('${kolam.id}')">Hapus</button>
-            </div>
-          </div>
-        `).join('');
-      }
-    }
-
-    // Display Anak Kolam
-    function displayAnakKolam() {
-      const anakKolamList = document.getElementById('anak_kolam_list');
-      if (anakKolamData.length === 0) {
-        anakKolamList.innerHTML = '<div class="empty-state"><p>Belum ada data anak kolam</p></div>';
-      } else {
-        anakKolamList.innerHTML = anakKolamData.map(anak => `
-          <div class="data-item">
-            <div class="data-item-info">
-              <h3>${anak.name}</h3>
-              <p><strong>Kolam Induk:</strong> ${anak.parent}</p>
-              <p><strong>Jumlah Ikan:</strong> ${anak.jumlah}</p>
-              <p><strong>Status:</strong> ${anak.status || 'Hidup'}</p>
-            </div>
-            <div class="data-item-actions">
-              <button class="btn-danger" onclick="deleteAnakKolam('${anak.id}')">Hapus</button>
-            </div>
-          </div>
-        `).join('');
-      }
-    }
-
-    // Update Stats
     function updateStats() {
-      const statsContainer = document.getElementById('stats-container');
-      const totalIkan = anakKolamData.reduce((sum, anak) => sum + parseInt(anak.jumlah || 0), 0);
-      
-      statsContainer.innerHTML = `
-        <div class="stat-card">
-          <h3>Total Kolam</h3>
-          <div class="number">${kolamData.length}</div>
-        </div>
-        <div class="stat-card">
-          <h3>Total Anak Kolam</h3>
-          <div class="number">${anakKolamData.length}</div>
-        </div>
-        <div class="stat-card">
-          <h3>Total Ikan</h3>
-          <div class="number">${totalIkan}</div>
-        </div>
-        <div class="stat-card">
-          <h3>Total Luas</h3>
-          <div class="number">${kolamData.reduce((sum, k) => sum + parseInt(k.size || 0), 0)} m²</div>
-        </div>
+      const totalKolam = kolamData.length;
+      const totalAnakKolam = anakKolamData.length;
+      const totalIkan = anakKolamData.reduce((sum, item) => sum + Number(item.jumlah || 0), 0);
+      const totalLuas = kolamData.reduce((sum, item) => sum + Number(item.size || 0), 0);
+
+      document.getElementById('stats').innerHTML = `
+        <div class="stat-box"><h3>Total Kolam</h3><div class="num">${totalKolam}</div></div>
+        <div class="stat-box"><h3>Total Anak Kolam</h3><div class="num">${totalAnakKolam}</div></div>
+        <div class="stat-box"><h3>Total Ikan</h3><div class="num">${totalIkan}</div></div>
+        <div class="stat-box"><h3>Total Luas</h3><div class="num">${totalLuas}</div></div>
       `;
     }
 
-    // Add Kolam
-    window.addKolam = async () => {
-      const name = document.getElementById('kolam_name').value;
-      const size = document.getElementById('kolam_size').value;
-      const type = document.getElementById('kolam_type').value;
+    function renderKolam() {
+      const list = document.getElementById('kolamList');
+      if (!kolamData.length) {
+        list.innerHTML = '<div class="empty">Belum ada data kolam</div>';
+        return;
+      }
+      list.innerHTML = kolamData.map(item => `
+        <div class="item">
+          <div class="meta">
+            <strong>${item.name}</strong>
+            <small>Ukuran: ${item.size || 0} m²</small><br>
+            <small>Jenis: ${item.type || '-'}</small><br>
+            <small>Status: ${item.status || 'Aktif'}</small>
+          </div>
+          <button class="danger" onclick="deleteKolam('${item.id}')">Hapus</button>
+        </div>
+      `).join('');
+    }
 
-      if (name && size && type) {
-        try {
-          const kolamRef = ref(db, 'kolam');
-          await push(kolamRef, {
-            name: name,
-            size: parseInt(size),
-            type: type,
-            status: 'Aktif',
-            created_at: new Date().toLocaleString('id-ID')
-          });
-          document.getElementById('kolam_name').value = '';
-          document.getElementById('kolam_size').value = '';
-          document.getElementById('kolam_type').value = '';
-          alert('✅ Kolam berhasil ditambahkan!');
-          sendNotification('Kolam Baru', `${name} telah ditambahkan ke sistem`);
-        } catch (error) {
-          alert('❌ Error: ' + error.message);
-        }
-      } else {
-        alert('⚠️ Semua field harus diisi!');
+    function renderAnakKolam() {
+      const list = document.getElementById('anakKolamList');
+      if (!anakKolamData.length) {
+        list.innerHTML = '<div class="empty">Belum ada data anak kolam</div>';
+        return;
+      }
+      list.innerHTML = anakKolamData.map(item => `
+        <div class="item">
+          <div class="meta">
+            <strong>${item.name}</strong>
+            <small>Kolam Induk: ${item.parent || '-'}</small><br>
+            <small>Jumlah: ${item.jumlah || 0}</small><br>
+            <small>Status: ${item.status || 'Hidup'}</small>
+          </div>
+          <button class="danger" onclick="deleteAnakKolam('${item.id}')">Hapus</button>
+        </div>
+      `).join('');
+    }
+
+    function loadKolam() {
+      onValue(ref(db, 'kolam'), (snapshot) => {
+        kolamData = [];
+        const data = snapshot.val() || {};
+        Object.keys(data).forEach(id => kolamData.push({ id, ...data[id] }));
+        renderKolam();
+        updateStats();
+      });
+    }
+
+    function loadAnakKolam() {
+      onValue(ref(db, 'anak_kolam'), (snapshot) => {
+        anakKolamData = [];
+        const data = snapshot.val() || {};
+        Object.keys(data).forEach(id => anakKolamData.push({ id, ...data[id] }));
+        renderAnakKolam();
+        updateStats();
+      });
+    }
+
+    window.addKolam = async function() {
+      const name = document.getElementById('kolam_name').value.trim();
+      const size = document.getElementById('kolam_size').value.trim();
+      const type = document.getElementById('kolam_type').value.trim();
+      if (!name || !size || !type) {
+        alert('Semua field kolam harus diisi');
+        return;
+      }
+      try {
+        await push(ref(db, 'kolam'), {
+          name, size: Number(size), type, status: 'Aktif', created_at: new Date().toISOString()
+        });
+        document.getElementById('kolam_name').value = '';
+        document.getElementById('kolam_size').value = '';
+        document.getElementById('kolam_type').value = '';
+        alert('Kolam berhasil ditambahkan');
+      } catch (error) {
+        alert('Gagal menambah kolam: ' + error.message);
       }
     };
 
-    // Add Anak Kolam
-    window.addAnakKolam = async () => {
-      const name = document.getElementById('anak_kolam_name').value;
-      const parent = document.getElementById('anak_kolam_parent').value;
-      const jumlah = document.getElementById('anak_kolam_jumlah').value;
-
-      if (name && parent && jumlah) {
-        try {
-          const anakKolamRef = ref(db, 'anak_kolam');
-          await push(anakKolamRef, {
-            name: name,
-            parent: parent,
-            jumlah: parseInt(jumlah),
-            status: 'Hidup',
-            created_at: new Date().toLocaleString('id-ID')
-          });
-          document.getElementById('anak_kolam_name').value = '';
-          document.getElementById('anak_kolam_parent').value = '';
-          document.getElementById('anak_kolam_jumlah').value = '';
-          alert('✅ Anak kolam berhasil ditambahkan!');
-          sendNotification('Anak Kolam Baru', `${name} telah ditambahkan ke ${parent}`);
-        } catch (error) {
-          alert('❌ Error: ' + error.message);
-        }
-      } else {
-        alert('⚠️ Semua field harus diisi!');
+    window.addAnakKolam = async function() {
+      const name = document.getElementById('anak_name').value.trim();
+      const parent = document.getElementById('anak_parent').value.trim();
+      const jumlah = document.getElementById('anak_jumlah').value.trim();
+      if (!name || !parent || !jumlah) {
+        alert('Semua field anak kolam harus diisi');
+        return;
+      }
+      try {
+        await push(ref(db, 'anak_kolam'), {
+          name, parent, jumlah: Number(jumlah), status: 'Hidup', created_at: new Date().toISOString()
+        });
+        document.getElementById('anak_name').value = '';
+        document.getElementById('anak_parent').value = '';
+        document.getElementById('anak_jumlah').value = '';
+        alert('Anak kolam berhasil ditambahkan');
+      } catch (error) {
+        alert('Gagal menambah anak kolam: ' + error.message);
       }
     };
 
-    // Delete Kolam
-    window.deleteKolam = async (id) => {
-      if (confirm('Yakin ingin menghapus kolam ini?')) {
-        try {
-          const kolamRef = ref(db, `kolam/${id}`);
-          await remove(kolamRef);
-          alert('✅ Kolam berhasil dihapus!');
-        } catch (error) {
-          alert('❌ Error: ' + error.message);
-        }
+    window.deleteKolam = async function(id) {
+      if (!confirm('Hapus kolam ini?')) return;
+      try {
+        await remove(ref(db, `kolam/${id}`));
+      } catch (error) {
+        alert('Gagal menghapus kolam: ' + error.message);
       }
     };
 
-    // Delete Anak Kolam
-    window.deleteAnakKolam = async (id) => {
-      if (confirm('Yakin ingin menghapus anak kolam ini?')) {
-        try {
-          const anakKolamRef = ref(db, `anak_kolam/${id}`);
-          await remove(anakKolamRef);
-          alert('✅ Anak kolam berhasil dihapus!');
-        } catch (error) {
-          alert('❌ Error: ' + error.message);
-        }
+    window.deleteAnakKolam = async function(id) {
+      if (!confirm('Hapus anak kolam ini?')) return;
+      try {
+        await remove(ref(db, `anak_kolam/${id}`));
+      } catch (error) {
+        alert('Gagal menghapus anak kolam: ' + error.message);
       }
     };
 
-    // Enable Notifications
-    window.enableNotifications = async () => {
+    window.enableNotifications = async function() {
       try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
-          const token = await getToken(messaging, {
-            vapidKey: 'BG2VmDdZ7jfGxrI3cXl5lX0wZ5xZ6kL9mN2pQ7rS9sT0uV1wX3yZ4aB5cD6eF7gH8iJ9kL0mN1oP2qR3sT4uV5wX6yZ7aB8cD9eF0gH1iJ2kL3mN4oP5qR6sT7uV8wX9yZ'
-          });
-          console.log('FCM Token:', token);
+          const token = await getToken(messaging, { vapidKey: 'BG2VmDdZ7jfGxrI3cXl5lX0wZ5xZ6kL9mN2pQ7rS9sT0uV1wX3yZ4aB5cD6eF7gH8iJ9kL0mN1oP2qR3sT4uV5wX6yZ7aB8cD9eF0gH1iJ2kL3mN4oP5qR6sT7uV8wX9yZ' });
           localStorage.setItem('fcm_token', token);
-          alert('✅ Notifikasi AKTIF! HP akan bunyi saat ada update.');
-          document.getElementById('status').textContent = 'Notifikasi Aktif ✅';
+          document.getElementById('statusText').textContent = 'Notifikasi aktif';
+          alert('Notifikasi aktif');
         } else {
-          alert('⚠️ Izin notifikasi ditolak. Silakan ubah di pengaturan aplikasi.');
+          alert('Izin notifikasi ditolak');
         }
-      } catch (error) {
-        console.log('Error:', error);
+      } catch (err) {
+        console.log('Notif error:', err);
+        alert('Gagal mengaktifkan notifikasi');
       }
     };
 
-    // Listen for incoming messages
+    window.exportCSV = function() {
+      let csv = 'Nama Kolam,Ukuran (m²),Jenis Ikan,Status\n';
+      kolamData.forEach(item => {
+        csv += `${item.name},${item.size || 0},${item.type || ''},${item.status || 'Aktif'}\n`;
+      });
+      csv += '\nNama Anak Kolam,Kolam Induk,Jumlah Ikan,Status\n';
+      anakKolamData.forEach(item => {
+        csv += `${item.name},${item.parent || ''},${item.jumlah || 0},${item.status || 'Hidup'}\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'semar-farm-export.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    };
+
+    window.clearAllData = async function() {
+      if (!confirm('Yakin ingin menghapus semua data?')) return;
+      try {
+        for (const item of kolamData) await remove(ref(db, `kolam/${item.id}`));
+        for (const item of anakKolamData) await remove(ref(db, `anak_kolam/${item.id}`));
+        alert('Semua data berhasil dihapus');
+      } catch (err) {
+        alert('Gagal menghapus data: ' + err.message);
+      }
+    };
+
     onMessage(messaging, (payload) => {
-      console.log('Message received:', payload);
-      const notificationTitle = payload.notification?.title || 'Semar Farm';
-      const notificationOptions = {
-        body: payload.notification?.body || 'Ada update baru',
-        icon: '🌾'
-      };
-      new Notification(notificationTitle, notificationOptions);
+      const title = payload.notification?.title || 'Semar Farm';
+      const body = payload.notification?.body || 'Ada update baru';
+      if (Notification.permission === 'granted') {
+        new Notification(title, { body, icon: '🌾' });
+      }
+      console.log('FCM payload received:', payload);
     });
 
-    // Send Notification
-    function sendNotification(title, body) {
-      if (Notification.permission === 'granted') {
-        new Notification(title, { body: body, icon: '🌾' });
-      }
-    }
-
-    // Export CSV
-    window.exportCSV = () => {
-      let csv = 'Nama Kolam,Ukuran (m²),Jenis Ikan,Status\n';
-      kolamData.forEach(kolam => {
-        csv += `"${kolam.name}","${kolam.size}","${kolam.type}","${kolam.status}"\n`;
-      });
-      csv += '\n\nNama Anak Kolam,Kolam Induk,Jumlah Ikan,Status\n';
-      anakKolamData.forEach(anak => {
-        csv += `"${anak.name}","${anak.parent}","${anak.jumlah}","${anak.status}"\n`;
-      });
-
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `semar-farm-export-${new Date().toISOString().split('T')[0]}.csv`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    };
-
-    // Clear All Data
-    window.clearAllData = () => {
-      if (confirm('⚠️ Ini akan menghapus SEMUA data! Yakin?')) {
-        kolamData.forEach(kolam => deleteKolam(kolam.id));
-        anakKolamData.forEach(anak => deleteAnakKolam(anak.id));
-        alert('✅ Semua data berhasil dihapus!');
-      }
-    };
-
-    // Initialize
     loadKolam();
     loadAnakKolam();
-    document.getElementById('status').textContent = 'Terhubung ke Firebase ✅';
+    document.getElementById('statusText').textContent = 'Terhubung ke Firebase';
 
-    // Service Worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./firebase-messaging-sw.js').catch(err => console.log('SW error:', err));
     }
